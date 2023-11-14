@@ -5,7 +5,7 @@ from app.models.tasks import StatusEnum
 
 class ReturnTaskSchema(ma.Schema):
     """
-        Schema for returning tasks to the frontend
+    Schema for returning tasks to the frontend
     """
     id = ma.UUID()
     title = ma.Str()
@@ -25,12 +25,29 @@ class ReturnTaskSchema(ma.Schema):
         
 class CreateTaskInputSchema(ma.Schema):
     """
-        Schema to validate input for creating a new task
+    Schema to validate input for creating a new task
     """
     title = ma.Str(required=True)
     description = ma.Str()
     due_at = ma.DateTime(required=True)
     status = ma.Str()
+    user_id = ma.UUID(required=True)
+    
+    @pre_load
+    def pack_enum(self, data, many, **kwargs):
+        # packs string into enum
+        model = data
+        model["status"] = StatusEnum(model["status"]).name
+        return model
+
+class UpdateTaskInputSchema(ma.Schema):
+    """
+    Schema to validate input for updating a task
+    """
+    title = ma.Str(required=True)
+    description = ma.Str(required=True)
+    due_at = ma.DateTime(required=True)
+    status = ma.Str(required=True)
     user_id = ma.UUID(required=True)
     
     @pre_load
