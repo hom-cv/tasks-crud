@@ -48,6 +48,8 @@ class CreateTaskInputSchema(ma.Schema):
     def pack_enum(self, data, many, **kwargs):
         # packs string into enum
         model = data
+        if "status" not in model:
+            return model
         model["status"] = StatusEnum(model["status"]).name
         if model["status"] == None:
             raise ValidationError("Not a valid status")
@@ -72,6 +74,8 @@ class UpdateTaskInputSchema(ma.Schema):
     def pack_enum(self, data, many, **kwargs):
         # packs string into enum
         model = data
+        if "status" not in model:
+            return model
         model["status"] = StatusEnum(model["status"]).name
         if model["status"] == None:
             raise ValidationError("Not a valid status")
@@ -89,9 +93,10 @@ class TaskFiltersSchema(ma.Schema):
     @pre_load
     def pack_enum(self, data, many, **kwargs):
         # packs string into enum
-        model = data.copy()
-        if "status" in model:
-            model["status"] = StatusEnum(model["status"]).name
-            if model["status"] == None:
-                raise ValidationError("Not a valid status")
+        model = data
+        if "status" not in model:
+            return model
+        model["status"] = StatusEnum(model["status"]).name
+        if model["status"] == None:
+            raise ValidationError("Not a valid status")
         return model

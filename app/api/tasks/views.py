@@ -112,7 +112,7 @@ def update_task_by_id(task_id):
         request_json = UpdateTaskInputSchema().load(request.json)
         service = TaskService()
         task = service.update_task_by_id(id=task_id, **request_json)
-        return jsonify(ReturnTaskSchema().dump(task))
+        return jsonify(ReturnTaskSchema().dump(task)), 200
     except TaskNotFoundException or UserNotFoundException as not_found:
         return jsonify({"error": str(not_found)}), 404
     except Exception as err:
