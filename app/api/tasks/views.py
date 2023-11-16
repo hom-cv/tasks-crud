@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app import models
 from app.api.tasks.services import TaskService
-from app.api.tasks.schemas import ReturnTaskSchema, CreateTaskInputSchema, UpdateTaskInputSchema
+from app.api.tasks.schemas import ReturnTaskSchema, CreateTaskInputSchema, UpdateTaskInputSchema, TaskFiltersSchema
 from app.exceptions.users import UserNotFoundException
 from marshmallow import ValidationError
 from app.utils.helpers import validation_error_handler
@@ -61,12 +61,12 @@ def get_all_tasks():
     try:
         service = TaskService()
         request_args = request.args
-        if request_args == None:
+        if len(request_args) == 0:
             tasks = service.get_all_tasks()
         else:
-            due_datetime = datetime.strptime(request_args['due_at'], '%Y-%m-%d')
-            modified_args = {**request_args, 'due_at': due_datetime}
-            tasks = service.get_task_by_filter(**modified_args)
+            print(request_args)
+            task_filters = TaskFiltersSchema().load(request_args)
+            tasks = service.get_task_by_filter(**task_filters)
         return jsonify(ReturnTaskSchema().dump(tasks, many=True))
     except Exception as err:
             return jsonify({"error": str(err)}), 400

@@ -1,7 +1,7 @@
 from app.extensions import db
 from app import models
 from uuid import UUID
-from exceptions.users import UserNotFoundException
+from app.exceptions.users import UserNotFoundException
 
 class UserRepository:
     """
