@@ -12,7 +12,7 @@ from app.api import (
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://strike:social@localhost:5432/tasks"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://strike:social@database:5432/tasks"
 
     configure_extensions(app)
     register_routes(app)
