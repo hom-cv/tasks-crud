@@ -64,7 +64,6 @@ def get_all_tasks():
         if len(request_args) == 0:
             tasks = service.get_all_tasks()
         else:
-            print(request_args)
             task_filters = TaskFiltersSchema().load(request_args)
             tasks = service.get_task_by_filter(**task_filters)
         return jsonify(ReturnTaskSchema().dump(tasks, many=True))

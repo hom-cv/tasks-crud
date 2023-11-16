@@ -93,7 +93,7 @@ class TaskFiltersSchema(ma.Schema):
     @pre_load
     def pack_enum(self, data, many, **kwargs):
         # packs string into enum
-        model = data
+        model = data.copy()
         if "status" not in model:
             return model
         model["status"] = StatusEnum(model["status"]).name

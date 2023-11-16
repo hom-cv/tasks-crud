@@ -9,9 +9,14 @@ from app.api import (
     users,
     tasks
 )
+from dotenv import load_dotenv
+
+
 
 def create_app() -> Flask:
     app = Flask(__name__)
+    load_dotenv(".flaskenv")
+
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://strike:social@database:5432/tasks"
 
     configure_extensions(app)
