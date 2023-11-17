@@ -91,3 +91,7 @@ http://localhost:5000
 ## Troubleshooting
 
 If the web server is not running but the database is running, simply click the play button next to the web container to start running the web service. This can happen when postgres is not finished setting up before docker attempts to run the web container. Usually there will be a script that waits for postgres to finish initializing before running the web server.
+
+If any issues arise with using the API, I have some tests set up to show examples of the API in use:
+
+https://www.postman.com/cryosat-cosmologist-2945682/workspace/task-crud-strike-social/overview
